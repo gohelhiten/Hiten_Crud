@@ -1,0 +1,112 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER Procedure [dbo].[usp_GetAllEmployee]
+@Id int = null
+As
+BEGIN
+	
+	Select * from Employee where 
+	EmployeeID = Case When @Id is null Then EmployeeID Else @Id END
+
+END
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[usp_InsertEmployee] 
+    @FirstName NVARCHAR(50), 
+    @LastName NVARCHAR(50),
+    @Email NVARCHAR(50), 
+    @PhoneNumber NVARCHAR(50),
+    @HireDate DATE,
+    @JobTitle NVARCHAR(50),
+    @Department NVARCHAR(50),
+    @Salary DECIMAL(10, 2)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Insert employee data
+    INSERT INTO Employee (
+        FirstName,
+        LastName,
+        Email,
+        PhoneNumber,
+        HireDate,
+        JobTitle,
+        Department,
+        Salary
+    )
+    VALUES (
+        @FirstName,
+        @LastName,
+        @Email,
+        @PhoneNumber,
+        @HireDate,
+        @JobTitle,
+        @Department,
+        @Salary
+    );
+
+    SELECT SCOPE_IDENTITY() AS NewEmployeeID;
+END;
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[UpdateEmployee] (
+    @EmployeeID INT,
+    @FirstName NVARCHAR(50), 
+    @LastName NVARCHAR(50),
+    @Email NVARCHAR(50), 
+    @PhoneNumber NVARCHAR(50),
+    @HireDate DATE,
+    @JobTitle NVARCHAR(50),
+    @Department NVARCHAR(50),
+    @Salary DECIMAL(10, 2)
+)
+AS
+BEGIN
+   
+    UPDATE Employee
+    SET 
+        FirstName = @FirstName,
+        LastName = @LastName,
+        Email = @Email,
+        PhoneNumber = @PhoneNumber,
+        HireDate = @HireDate,
+        JobTitle = @JobTitle,
+        Department = @Department,
+        Salary = @Salary
+    WHERE EmployeeID = @EmployeeID;
+
+END;
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[DeleteEmployee]
+    @EmployeeID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Check if the employee exists and delete if it does
+    IF EXISTS(SELECT 1 FROM Employee WHERE EmployeeID = @EmployeeID)
+    BEGIN
+        DELETE FROM Employee
+        WHERE EmployeeID = @EmployeeID;
+
+        SELECT 'Employee deleted successfully.' AS Message;
+    END
+    ELSE
+    BEGIN
+       
+        SELECT 'Employee not found.' AS Message;
+    END
+END;
