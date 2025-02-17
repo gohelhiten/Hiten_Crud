@@ -1,0 +1,64 @@
+﻿    @model List<MVCAPP.Models.Employee>
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div style="text-align:right;">
+    <button type="button" onclick="location.href='@Url.Action("Create", "Employee")'" class="btn btn-info">Add Employee</button>
+</div>
+
+<table class="table table-striped" id="empList">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Hire Date</th>
+            <th scope="col">Department</th>
+            <th scope="col">Salary</th>
+             <th scope="col">Actions</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts{
+    <script>
+
+        $(document).ready(function() {
+            $(empList).DataTable({
+                "ajax":{
+                    "url":"Employee/GetList",
+                    "type":"GET",
+                    "datatype":"json"
+                },
+                "columnDefs": [{
+                    "targets": [0]
+                }],
+                "columns":[
+                {"data":"employeeID"},
+                {"data":"firstName"},
+                {"data":"lastName"},
+                {"data":"email"},
+                {"data":"phoneNumber"},
+                {"data":"hireDate"},
+                {"data":"jobTitle"},
+                {"data":"department"},
+                {"data":"salary"},
+                {
+                    "data":"employeeID",
+                    "render": function (data, row){
+                        return`
+                        <a class="btn btn-primary" style="margin-right:10px;" href='/Employee/Edit/${data}'>Edit</a>
+                        <a class="btn btn-danger" href='javascript:void(0);'>Delete</a>
+                        `;
+                    }
+                }
+                ]
+            });
+        });
+    </script>
+}

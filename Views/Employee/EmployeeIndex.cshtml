@@ -1,0 +1,45 @@
+﻿    @model List<MVCAPP.Models.Employee>
+    @{
+        ViewData["Title"] = "Employee Details";
+    }
+
+    <h1>@ViewData["Title"]</h1>
+
+    <div style="text-align:right;">
+        <button type="button" onclick="location.href='@Url.Action("Create", "Employee")'" class="btn btn-info">Add Employee</button>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Hire Date</th>
+                <th scope="col">Department</th>
+                <th scope="col">Salary</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var emp in Model)
+            {
+                <tr>
+                    <th scope="row">@emp.EmployeeID</th>
+                    <td>@emp.FirstName</td>
+                    <td>@emp.LastName</td>
+                    <td>@emp.Email</td>
+                    <td>@emp.PhoneNumber</td>
+                    <td>@emp.HireDate.ToShortDateString()</td>
+                    <td>@emp.Department</td>
+                    <td>@emp.Salary</td>
+                    <td>
+                        <a class="btn btn-primary" href="@Url.Action("Edit", "Employee", new { id = emp.EmployeeID })">Edit</a>
+                        <a class="btn btn-danger" href="@Url.Action("Delete", "Employee", new { id = emp.EmployeeID })" onclick="return confirm('Are you sure you want to delete this employee?');">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

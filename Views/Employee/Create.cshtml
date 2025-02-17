@@ -1,0 +1,91 @@
+﻿@model MVCAPP.Models.Employee
+
+@{
+    ViewData["Title"] = Model.EmployeeID > 0 ? "Edit Employee" : "Add Employee";
+}
+
+<div class="container my-5 p-4 rounded shadow-sm bg-secondary ">
+    <u><h2 class="mb-4 text-light" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">@ViewData["Title"]</h2></u>
+    <form asp-action="Create" asp-controller="Employee" method="post" class="needs-validation" novalidate>
+        @Html.HiddenFor(m => m.EmployeeID)
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="FirstName" class="form-label fw-bold">First Name</label>
+                <input asp-for="FirstName" class="form-control" required />
+                <div class="invalid-feedback">Please enter a first name.</div>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="LastName" class="form-label fw-bold">Last Name</label>
+                <input asp-for="LastName" class="form-control" required />
+                <div class="invalid-feedback">Please enter a last name.</div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label fw-bold">Email</label>
+                <input asp-for="Email" type="email" class="form-control" required />
+                <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="PhoneNumber" class="form-label fw-bold">Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" required />
+                <div class="invalid-feedback">Please enter a phone number.</div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="HireDate" class="form-label fw-bold">Hire Date</label>
+                <input asp-for="HireDate" type="date" class="form-control" required />
+                <div class="invalid-feedback">Please select a hire date.</div>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="JobTitle" class="form-label fw-bold">Job Title</label>
+                <input asp-for="JobTitle" class="form-control" required />
+                <div class="invalid-feedback">Please enter a job title.</div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Department" class="form-label fw-bold">Department</label>
+                <input asp-for="Department" class="form-control" required />
+                <div class="invalid-feedback">Please enter a department.</div>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Salary" class="form-label fw-bold">Salary</label>
+                <input asp-for="Salary" class="form-control" type="number" min="0" required />
+                <div class="invalid-feedback">Please enter a valid salary.</div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success btn-lg">@ViewData["Title"]</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
